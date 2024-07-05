@@ -1,4 +1,4 @@
-app = "epic-stack-template"
+app = "epic-stack-tokenami-5b0f"
 primary_region = "sjc"
 kill_signal = "SIGINT"
 kill_timeout = 5
