@@ -18,6 +18,7 @@ import {
 	useSubmit,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
+import { css } from '@tokenami/css'
 import { useRef } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
@@ -36,6 +37,7 @@ import { Icon, href as iconsHref } from './components/ui/icon.tsx'
 import { EpicToaster } from './components/ui/sonner.tsx'
 import { ThemeSwitch, useTheme } from './routes/resources+/theme-switch.tsx'
 import tailwindStyleSheetUrl from './styles/tailwind.css?url'
+import tokenamiStylesheetUrl from './styles/tokenami.css?url'
 import { getUserId, logout } from './utils/auth.server.ts'
 import { ClientHintCheck, getHints } from './utils/client-hints.tsx'
 import { prisma } from './utils/db.server.ts'
@@ -66,6 +68,7 @@ export const links: LinksFunction = () => {
 		} as const, // necessary to make typescript happy
 		{ rel: 'icon', type: 'image/svg+xml', href: '/favicons/favicon.svg' },
 		{ rel: 'stylesheet', href: tailwindStyleSheetUrl },
+		{ rel: 'stylesheet', href: tokenamiStylesheetUrl },
 	].filter(Boolean)
 }
 
@@ -161,7 +164,11 @@ function Document({
 	allowIndexing?: boolean
 }) {
 	return (
-		<html lang="en" className={`${theme} h-full overflow-x-hidden`}>
+		<html
+			lang="en"
+			style={css({ '--height': 'var(---, 100%)', '--overflow-x': 'hidden' })}
+			className={`theme-${theme}`}
+		>
 			<head>
 				<ClientHintCheck nonce={nonce} />
 				<Meta />
@@ -172,7 +179,12 @@ function Document({
 				)}
 				<Links />
 			</head>
-			<body className="bg-background text-foreground">
+			<body
+				style={css({
+					'--background': 'var(--color_background)',
+					'--color': 'var(--color_foreground)',
+				})}
+			>
 				{children}
 				<script
 					nonce={nonce}
@@ -205,7 +217,13 @@ function App() {
 			allowIndexing={allowIndexing}
 			env={data.ENV}
 		>
-			<div className="flex h-screen flex-col justify-between">
+			<div
+				style={css({
+					'--display': 'flex',
+					'--flex-direction': 'column',
+					'--justify-content': 'space-between',
+				})}
+			>
 				<header className="container py-6">
 					<nav className="flex flex-wrap items-center justify-between gap-4 sm:flex-nowrap md:gap-8">
 						<Logo />

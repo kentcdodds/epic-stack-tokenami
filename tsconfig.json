@@ -1,7 +1,8 @@
 {
-	"include": ["**/*.ts", "**/*.tsx"],
+	"include": ["**/*.ts", "**/*.tsx", ".tokenami/tokenami.env.d.ts"],
 	"extends": ["@epic-web/config/typescript"],
 	"compilerOptions": {
+		"plugins": [{ "name": "@tokenami/ts-plugin" }],
 		"paths": {
 			"#app/*": ["./app/*"],
 			"#tests/*": ["./tests/*"],
